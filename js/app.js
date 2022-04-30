@@ -7,6 +7,7 @@ const BLACK_PLAYER = "black"
 const ILLEGAL = "illegal"
 const SOLDIER = "soldier"
 const KING = "king"
+const EMPTY = "empty"
 
 const messageBox = document.querySelector(".message-box")
 let currentColorTurn = WHITE_PLAYER

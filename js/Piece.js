@@ -20,11 +20,11 @@ class Piece {
         // absoluteMoves = this.getKnightRelativeMoves()
         if (this.type === SOLDIER) {
             absoluteMoves = this.getSoldierRelativeMoves()
-        } else if (this.type === BISHOP) {
-            absoluteMoves = this.getBishopRelativeMoves()
         } else if (this.type === KING) {
             absoluteMoves = this.getKingRelativeMoves()
         } else if (this.type === ILLEGAL) {
+            absoluteMoves = []
+        } else if (this.type === EMPTY) {
             absoluteMoves = []
         } else {
             console.log("Unknown type", type)
