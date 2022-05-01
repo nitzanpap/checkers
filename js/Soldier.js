@@ -40,38 +40,27 @@ class Soldier extends Piece {
 
     threatenThisPiece(piece) {
         piece.threatend = true
-        getTileFromPiece(piece).classList.add("threatend")
-        if (piece.type === KING) piece.inCheck = true
+        getCellFromPiece(piece).classList.add("threatend")
     }
 
-    // TODO: Refactor this function so it can receive the initial piece's coordinate, and adds to it according to the direction.
-    // TODO: Example: Instead of calling getMovesInDirection(arr,i+1,j+1,1,1), should be getMovesInDirection(arr,i,j,1,1).
-    getMovesInDirection(result, i, j, rowDirection, colDirection, optionalIterLimit = -1) {
-        // If optionalIterLimit has been given a value, then only run this recursive function that
-        // many times.
-        if (optionalIterLimit != 0) {
-            // If tile is out of bounds
-            if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
-                // If encountered an empty tile
-                if (board[i][j].color === "e") {
-                    result.push([i, j])
-                    this.getMovesInDirection(
-                        result,
-                        i + rowDirection,
-                        j + colDirection,
-                        rowDirection,
-                        colDirection,
-                        optionalIterLimit - 1
-                    )
-                }
-                // If encountered an opponent piece
-                else if (board[i][j].color !== this.color) {
-                    result.push([i, j])
+    getMovesInDirection(result, i, j, rowDirection, colDirection) {
+        i += rowDirection
+        j += colDirection
+        // If cell is in bounds
+        if (isCoordinateInBounds(i, j)) {
+            // If encountered an opponent piece
+            if (board[i][j].color === this.opponentColor) {
+                if (board[i + rowDirection][j + colDirection].type === EMPTY) {
                     this.threatenThisPiece(board[i][j])
+                    result.push([i + rowDirection, j + colDirection])
                 }
-                // If encountered an ally piece, maybe add somthing later
-                else {
-                }
+            }
+            // If encountered an empty tile
+            else if (board[i][j].color === "e") {
+                result.push([i, j])
+            }
+            // If encountered an ally piece, maybe add somthing later
+            else {
             }
         }
     }
@@ -80,12 +69,13 @@ class Soldier extends Piece {
         let result = []
         // First iteration calls for the relevant directions
         if (this.color === WHITE_PLAYER) {
-            this.getMovesInDirection(result, this.row + 1, this.col + 1, 1, 1)
-            this.getMovesInDirection(result, this.row - 1, this.col + 1, -1, 1)
+            this.getMovesInDirection(result, this.row, this.col, 1, -1)
+            this.getMovesInDirection(result, this.row, this.col, 1, 1)
         } else {
-            this.getMovesInDirection(result, this.row + 1, this.col - 1, 1, -1)
-            this.getMovesInDirection(result, this.row - 1, this.col - 1, -1, -1)
+            this.getMovesInDirection(result, this.row, this.col, -1, 1)
+            this.getMovesInDirection(result, this.row, this.col, -1, -1)
         }
+        console.log(result)
         return result
     }
 }

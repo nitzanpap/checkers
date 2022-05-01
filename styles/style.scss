@@ -94,7 +94,7 @@ body {
                         width: 100%;
                     }
                 }
-                &.selected-tile {
+                &.selected-cell {
                     background-color: $cell-hover-color;
                 }
                 &.possible-move {

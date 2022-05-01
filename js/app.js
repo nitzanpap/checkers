@@ -9,12 +9,15 @@ const SOLDIER = "soldier"
 const KING = "king"
 const EMPTY = "e"
 
-const messageBox = document.querySelector(".message-box")
-let currentColorTurn = WHITE_PLAYER
-const board = [[], [], [], [], [], [], [], []]
-let tileSelected = undefined
-let madeAMove = false
 let table
+const board = [[], [], [], [], [], [], [], []]
+let currentColorTurn = WHITE_PLAYER
+const messageBox = document.querySelector(".message-box")
+let cellSelected = undefined
+let isMoveAllowed = false
+
+let whitePlayerTotalPieces = 12
+let blackPlayerTotalPieces = 12
 let endGame = false
 
 runMainGameLoop()
@@ -45,20 +48,22 @@ function createBoard() {
         for (let j = 0; j <= BOARD_SIZE - 1; j++) {
             const td = document.createElement("td")
             td.classList = "tdRow" + i + " tdCol" + j
+            td.id = "td" + (j + i * BOARD_SIZE)
             if (cellBgColor === "black-cell") {
                 cellBgColor = "white-cell"
+                // Add piece to board array
                 addNewPieceToBoardArray(i, j, ILLEGAL, ILLEGAL)
             } else {
                 cellBgColor = "black-cell"
+                // Add piece to board array
                 addNewPieceToBoardArray(i, j, EMPTY, EMPTY)
+                td.addEventListener("click", () => {
+                    if (!endGame) handleCellClick(td)
+                })
             }
             td.classList.add(cellBgColor)
             td.id = "td" + (j + i * BOARD_SIZE)
             tr.appendChild(td)
-            // Add piece to board array
-            td.addEventListener("click", () => {
-                if (!endGame) handleTileClick(td)
-            })
         }
     }
     console.log(board)
@@ -68,88 +73,51 @@ function createPieces() {
     // Draw two special rows
     for (let i = 0; i <= 2; i++) {
         let tr = document.querySelector("#tr" + i)
-        let tileColor = "white"
+        let cellColor = "white"
         let pieceType = SOLDIER
         // Runs twice - Once for the white pieces, and once for the black pieces
         for (let k = 1; k <= 2; k++) {
             // k alternates between creating the white and black pieces
             if (k === 2) {
-                tileColor = "black"
+                cellColor = "black"
                 tr = document.querySelector("#tr" + (BOARD_SIZE - 1 - i))
             }
             for (let j = 0; j <= BOARD_SIZE - 1; j++) {
                 const td = tr.querySelector(".tdCol" + j)
                 if (td.classList.contains("black-cell")) {
                     // Add pieces to board array
-                    if (k === 1) addNewPieceToBoardArray(i, j, pieceType, tileColor)
-                    else addNewPieceToBoardArray(BOARD_SIZE - 1 - i, j, pieceType, tileColor)
+                    if (k === 1) addNewPieceToBoardArray(i, j, pieceType, cellColor)
+                    else addNewPieceToBoardArray(BOARD_SIZE - 1 - i, j, pieceType, cellColor)
                     // Draw pieces on the screen
-                    drawPieceInit(td, pieceType, tileColor)
+                    drawPieceInit(td, pieceType, cellColor)
                 }
             }
         }
     }
 }
 
-function addNewPieceToBoardArray(i, j, type, color) {
-    if (type === ILLEGAL) {
-        board[i][j] = new Piece(i, j, type, color)
-    } else if (type === EMPTY) {
-        board[i][j] = new Piece(i, j, type, color)
-    } else if (type === SOLDIER) {
-        board[i][j] = new Soldier(i, j, type, color)
-    } else if (type === KING) {
-        board[i][j] = new King(i, j, type, color)
-    }
-}
+function handleCellClick(cell) {
+    const pieceClicked = getPieceFromCell(cell)
 
-function drawPieceInit(tile, type, tileColor) {
-    const piece = document.createElement("img")
-    piece.className += "piece " + type
-    piece.src = "styles/imgs/pieces/" + tileColor + "_" + type + ".png"
-    tile.appendChild(piece)
-}
+    // Click on a current player's piece
+    if (pieceClicked.color === currentColorTurn) {
+        // Clear all previous possible moves
+        removePossibleMoves()
+        // Select new cell
+        selectCellClick(cell)
+        // Show possible moves of selected cell
+        let possibleMoves = pieceClicked.getPossibleMoves()
+        showPossibleMoves(possibleMoves)
 
-function updateMessageBox(event, piece1, piece2 = undefined) {
-    messageBox.innerText = ""
-    messageBox.className = "message-box"
-    if (event === "capture") {
-        messageBox.innerText =
-            piece1.color + " " + piece1.type + " Captured " + piece2.color + " " + piece2.type + "!"
-        messageBox.classList.add("message-box-capture")
-    } else if (event === "move") {
-        messageBox.innerText =
-            piece1.color +
-            " " +
-            piece1.type +
-            " moved to " +
-            coordinateToCheckersCoordinate(piece1.row, piece1.col)
-    }
-    if (event === "new king") {
-        messageBox.innerText = piece1.color + " player aquired a king!"
-        messageBox.classList.add("message-box-check")
-    }
-    if (event === "game-over") {
-        messageBox.innerText = "Congratulations! " + piece1.color + " player Won!"
-        messageBox.classList.add("message-box-checkmate")
-    }
-}
-function coordinateToCheckersCoordinate(row, col) {
-    return String.fromCharCode(ASCII_NUM_OF_A + row) + (col + 1)
-}
+        // Click on a valid empty cell
+    } else if (isValidCellDestination(pieceClicked, cell)) {
+        const selectedPiece = getPieceFromCell(cellSelected)
+        isMoveAllowed = true
+        movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
 
-function getPieceFromTile(tile) {
-    return board[Math.floor(tile.id.slice(2) / 8)][tile.id.slice(2) % 8]
-}
-
-function getTileFromPiece(piece) {
-    return document.querySelector("#td" + (piece.row * 8 + piece.col))
-}
-
-function getPieceFromTypeAndColor(type, color) {
-    for (let row of board) {
-        for (let piece of row) {
-            if (piece.type === type && piece.color === color) return piece
-        }
+        removePossibleMoves()
+        removeSelectedCell()
+        switchTurn()
+        isMoveAllowed = false
     }
 }

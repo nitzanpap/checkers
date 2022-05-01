@@ -138,7 +138,7 @@ body .board-container tr td img:hover {
   width: 100%;
 }
 
-body .board-container tr td.selected-tile {
+body .board-container tr td.selected-cell {
   background-color: #9c40f1;
 }
 

@@ -41,7 +41,6 @@ class King extends Piece {
     threatenThisPiece(piece) {
         piece.threatend = true
         getTileFromPiece(piece).classList.add("threatend")
-        if (piece.type === KING) piece.inCheck = true
     }
 
     // TODO: Refactor this function so it can receive the initial piece's coordinate, and adds to it according to the direction.
@@ -50,6 +49,8 @@ class King extends Piece {
         // If optionalIterLimit has been given a value, then only run this recursive function that
         // many times.
         if (optionalIterLimit != 0) {
+            i += rowDirection
+            j += colDirection
             // If tile is out of bounds
             if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
                 // If encountered an empty tile
@@ -78,10 +79,10 @@ class King extends Piece {
 
     getKingRelativeMoves() {
         let result = []
-        this.getMovesInDirection(result, this.row + 1, this.col + 1, 1, 1)
-        this.getMovesInDirection(result, this.row - 1, this.col - 1, -1, -1)
-        this.getMovesInDirection(result, this.row + 1, this.col - 1, 1, -1)
-        this.getMovesInDirection(result, this.row - 1, this.col + 1, -1, 1)
+        this.getMovesInDirection(result, this.row, this.col, 1, 1)
+        this.getMovesInDirection(result, this.row, this.col, -1, -1)
+        this.getMovesInDirection(result, this.row, this.col, 1, -1)
+        this.getMovesInDirection(result, this.row, this.col, -1, 1)
         return result
     }
 }
