@@ -4,10 +4,10 @@ const ASCII_NUM_OF_A = 65
 const WHITE_PLAYER = "white"
 const BLACK_PLAYER = "black"
 
-const ILLEGAL = "illegal"
+const ILLEGAL = "il"
 const SOLDIER = "soldier"
 const KING = "king"
-const EMPTY = "empty"
+const EMPTY = "e"
 
 const messageBox = document.querySelector(".message-box")
 let currentColorTurn = WHITE_PLAYER
@@ -45,12 +45,17 @@ function createBoard() {
         for (let j = 0; j <= BOARD_SIZE - 1; j++) {
             const td = document.createElement("td")
             td.classList = "tdRow" + i + " tdCol" + j
-            cellBgColor = cellBgColor === "black-cell" ? "white-cell" : "black-cell"
+            if (cellBgColor === "black-cell") {
+                cellBgColor = "white-cell"
+                addNewPieceToBoardArray(i, j, ILLEGAL, ILLEGAL)
+            } else {
+                cellBgColor = "black-cell"
+                addNewPieceToBoardArray(i, j, EMPTY, EMPTY)
+            }
             td.classList.add(cellBgColor)
             td.id = "td" + (j + i * BOARD_SIZE)
             tr.appendChild(td)
             // Add piece to board array
-            addNewPieceToBoardArray(i, j, ILLEGAL, ILLEGAL)
             td.addEventListener("click", () => {
                 if (!endGame) handleTileClick(td)
             })
@@ -89,10 +94,12 @@ function createPieces() {
 function addNewPieceToBoardArray(i, j, type, color) {
     if (type === ILLEGAL) {
         board[i][j] = new Piece(i, j, type, color)
-    } else if (type === SOLDIER) {
+    } else if (type === EMPTY) {
         board[i][j] = new Piece(i, j, type, color)
+    } else if (type === SOLDIER) {
+        board[i][j] = new Soldier(i, j, type, color)
     } else if (type === KING) {
-        board[i][j] = new KingPiece(i, j, type, color)
+        board[i][j] = new King(i, j, type, color)
     }
 }
 
