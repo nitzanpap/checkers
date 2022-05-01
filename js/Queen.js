@@ -1,4 +1,4 @@
-class King extends Piece {
+class Queen extends Piece {
     constructor(row, col, type, color) {
         super(row, col, type, color)
     }
@@ -7,53 +7,23 @@ class King extends Piece {
         // Get relative moves
         let absoluteMoves = []
         // absoluteMoves = this.getKnightRelativeMoves()
-        if (this.type === KING) {
-            absoluteMoves = this.getKingRelativeMoves()
+        if (this.type === QUEEN) {
+            absoluteMoves = this.getQueenRelativeMoves()
         } else {
             console.log("Unknown type", type)
         }
         return absoluteMoves
     }
 
-    getPawnRelativeMoves() {
-        let result = []
-        let i = this.row + this.pawnDirectionFactor
-        let j = this.col
-        // Check if the next tile is empty
-        if (isWithinBounds(i, j) && board[i][j].color === "e") {
-            result.push([i, j])
-            // If the pawn's on it's first move, check if the tile after the first one is empty
-            if (this.isOnFirstMove && board[i + this.pawnDirectionFactor][j].color === "e") {
-                result.push([i + this.pawnDirectionFactor, j])
-            }
-        }
-        if (isWithinBounds(i, j + 1) && board[i][j + 1].color === this.opponentColor) {
-            this.threatenThisPiece(board[i][j + 1])
-            result.push([i, j + 1])
-        }
-        if (isWithinBounds(i, j - 1) && board[i][j - 1].color === this.opponentColor) {
-            this.threatenThisPiece(board[i][j - 1])
-            result.push([i, j - 1])
-        }
-        return result
-    }
-
-    threatenThisPiece(piece) {
-        piece.threatend = true
-        getTileFromPiece(piece).classList.add("threatend")
-    }
-
-    // TODO: Refactor this function so it can receive the initial piece's coordinate, and adds to it according to the direction.
-    // TODO: Example: Instead of calling getMovesInDirection(arr,i+1,j+1,1,1), should be getMovesInDirection(arr,i,j,1,1).
     getMovesInDirection(result, i, j, rowDirection, colDirection, optionalIterLimit = -1) {
         // If optionalIterLimit has been given a value, then only run this recursive function that
         // many times.
         if (optionalIterLimit != 0) {
             i += rowDirection
             j += colDirection
-            // If tile is out of bounds
+            // If cell is out of bounds
             if (i >= 0 && i <= 7 && j >= 0 && j <= 7) {
-                // If encountered an empty tile
+                // If encountered an empty cell
                 if (board[i][j].color === "e") {
                     result.push([i, j])
                     this.getMovesInDirection(
@@ -77,7 +47,7 @@ class King extends Piece {
         }
     }
 
-    getKingRelativeMoves() {
+    getQueenRelativeMoves() {
         let result = []
         this.getMovesInDirection(result, this.row, this.col, 1, 1)
         this.getMovesInDirection(result, this.row, this.col, -1, -1)

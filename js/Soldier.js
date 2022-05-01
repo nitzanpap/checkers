@@ -15,34 +15,6 @@ class Soldier extends Piece {
         return absoluteMoves
     }
 
-    getPawnRelativeMoves() {
-        let result = []
-        let i = this.row + this.pawnDirectionFactor
-        let j = this.col
-        // Check if the next tile is empty
-        if (isWithinBounds(i, j) && board[i][j].color === "e") {
-            result.push([i, j])
-            // If the pawn's on it's first move, check if the tile after the first one is empty
-            if (this.isOnFirstMove && board[i + this.pawnDirectionFactor][j].color === "e") {
-                result.push([i + this.pawnDirectionFactor, j])
-            }
-        }
-        if (isWithinBounds(i, j + 1) && board[i][j + 1].color === this.opponentColor) {
-            this.threatenThisPiece(board[i][j + 1])
-            result.push([i, j + 1])
-        }
-        if (isWithinBounds(i, j - 1) && board[i][j - 1].color === this.opponentColor) {
-            this.threatenThisPiece(board[i][j - 1])
-            result.push([i, j - 1])
-        }
-        return result
-    }
-
-    threatenThisPiece(piece) {
-        piece.threatend = true
-        getCellFromPiece(piece).classList.add("threatend")
-    }
-
     getMovesInDirection(result, i, j, rowDirection, colDirection) {
         i += rowDirection
         j += colDirection

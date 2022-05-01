@@ -39,8 +39,8 @@ function addNewPieceToBoardArray(i, j, type, color) {
         board[i][j] = new Piece(i, j, type, color)
     } else if (type === SOLDIER) {
         board[i][j] = new Soldier(i, j, type, color)
-    } else if (type === KING) {
-        board[i][j] = new King(i, j, type, color)
+    } else if (type === QUEEN) {
+        board[i][j] = new Queen(i, j, type, color)
     }
 }
 
@@ -55,13 +55,13 @@ function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
             WINNER.color.slice(1) +
             " player won!"
         messageBox.classList.add("message-box-game-over")
-        // if a new king was aquired
-    } else if (event === "new king") {
+        // if a new queen was aquired
+    } else if (event === "new queen") {
         messageBox.innerText =
             piece1.color.slice(0, 1).toUpperCase() +
             piece1.color.slice(1) +
-            " player aquired a king!"
-        messageBox.classList.add("message-box-new-king")
+            " player acquired a queen!"
+        messageBox.classList.add("message-box-new-queen")
         // if a capture has been made
     } else if (event === "capture") {
         messageBox.innerText =

@@ -12,13 +12,13 @@ const BLACK_PLAYER = new Player(BLACK)
 // Piece types
 const ILLEGAL = "il"
 const SOLDIER = "soldier"
-const KING = "king"
+const QUEEN = "queen"
 const EMPTY = "e"
 
 // Move types
 const MOVE = "move"
 const CAPTURE = "capture"
-const NEW_KING = "new king"
+const NEW_QUEEN = "new queen"
 const GAME_OVER = "game over"
 
 let table
@@ -139,7 +139,7 @@ function handleCellClick(cell) {
                 board[previousRow][previousCol],
                 selectedPiece
             )
-            if (capturedPiece.type === (SOLDIER || KING)) {
+            if (capturedPiece.type === (SOLDIER || QUEEN)) {
                 removePieceFromBoardArray(capturedPiece)
                 erasePieceFromCell(getCellFromPiece(capturedPiece))
                 capturedPiece.color === WHITE

@@ -16,18 +16,14 @@ class Piece {
 
     threatenThisPiece(piece) {
         piece.threatend = true
-        getTileFromPiece(piece).classList.add("threatend")
+        getCellFromPiece(piece).classList.add("threatend")
     }
 
     getPossibleMoves(board) {
         // Get relative moves
         let absoluteMoves = []
         // absoluteMoves = this.getKnightRelativeMoves()
-        if (this.type === SOLDIER) {
-            absoluteMoves = this.getSoldierRelativeMoves()
-        } else if (this.type === KING) {
-            absoluteMoves = this.getKingRelativeMoves()
-        } else if (this.type === ILLEGAL) {
+        if (this.type === ILLEGAL) {
             absoluteMoves = []
         } else if (this.type === EMPTY) {
             absoluteMoves = []

@@ -45,11 +45,9 @@ body {
     .message-box-capture {
         color: blue;
     }
-    .message-box-new-king {
+    .message-box-new-queen {
         color: crimson;
     }
-    // FIXME: .message-box-game-over class is applied when demanded but does not take precedent,
-    // although it should.
     .message-box-game-over {
         color: $cell-hover-color;
         text-decoration: wavy underline 4px $cell-hover-color;
