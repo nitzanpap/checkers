@@ -44,28 +44,46 @@ function addNewPieceToBoardArray(i, j, type, color) {
     }
 }
 
-function updateMessageBox(event, piece1, piece2 = undefined) {
+function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
     messageBox.innerText = ""
     messageBox.className = "message-box"
-    if (event === "capture") {
+    // if the game is over
+    if (event === "game over") {
         messageBox.innerText =
-            piece1.color + " " + piece1.type + " Captured " + piece2.color + " " + piece2.type + "!"
+            "Congratulations! " +
+            WINNER.color.slice(0, 1).toUpperCase() +
+            WINNER.color.slice(1) +
+            " player won!"
+        messageBox.classList.add("message-box-game-over")
+        // if a new king was aquired
+    } else if (event === "new king") {
+        messageBox.innerText =
+            piece1.color.slice(0, 1).toUpperCase() +
+            piece1.color.slice(1) +
+            " player aquired a king!"
+        messageBox.classList.add("message-box-new-king")
+        // if a capture has been made
+    } else if (event === "capture") {
+        messageBox.innerText =
+            piece1.color.slice(0, 1).toUpperCase() +
+            piece1.color.slice(1) +
+            " " +
+            piece1.type +
+            " captured " +
+            piece2.color +
+            " " +
+            piece2.type +
+            "!"
         messageBox.classList.add("message-box-capture")
+        // if a move has been made
     } else if (event === "move") {
         messageBox.innerText =
-            piece1.color +
+            piece1.color.slice(0, 1).toUpperCase() +
+            piece1.color.slice(1) +
             " " +
             piece1.type +
             " moved to " +
             coordinateToCheckersCoordinate(piece1.row, piece1.col)
-    }
-    if (event === "new king") {
-        messageBox.innerText = piece1.color + " player aquired a king!"
-        messageBox.classList.add("message-box-check")
-    }
-    if (event === "game-over") {
-        messageBox.innerText = "Congratulations! " + piece1.color + " player Won!"
-        messageBox.classList.add("message-box-checkmate")
     }
 }
 
@@ -129,4 +147,24 @@ function movePiece(piece, rowTo, colTo) {
     updatedBoardPieceLocation(piece.row, piece.col, rowTo, colTo)
     // Draw piece in it's location according to its data
     drawPieceInCell(getCellFromPiece(piece))
+}
+
+function getCapturedPieceBetween(previousPiece, currentPiece) {
+    let capturedRow =
+        previousPiece.row < currentPiece.row ? currentPiece.row - 1 : currentPiece.row + 1
+    let capturedCol =
+        previousPiece.col < currentPiece.col ? currentPiece.col - 1 : currentPiece.col + 1
+    return board[capturedRow][capturedCol]
+}
+
+function clearPossibleCaptures() {
+    possibleCaptures = []
+}
+
+function erasePieceFromCell(cell) {
+    cell.removeChild(cell.children[0])
+}
+
+function removePieceFromBoardArray(piece) {
+    board[piece.row][piece.col] = new Piece(piece.row, piece.col, EMPTY, EMPTY)
 }

@@ -55,11 +55,11 @@ body .message-box-capture {
   color: blue;
 }
 
-body .message-box-check {
+body .message-box-new-king {
   color: crimson;
 }
 
-body .message-box-checkmate {
+body .message-box-game-over {
   color: #9c40f1;
   -webkit-text-decoration: wavy underline 4px #9c40f1;
           text-decoration: wavy underline 4px #9c40f1;

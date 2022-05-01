@@ -5,7 +5,7 @@ class Piece {
         this.type = type
         this.color = color
         if (this.color === "e") this.opponentColor = "e"
-        else this.opponentColor = color === WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER
+        else this.opponentColor = color === WHITE ? BLACK : WHITE
         this.threatend = false
     }
 

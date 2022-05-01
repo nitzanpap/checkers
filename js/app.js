@@ -1,24 +1,39 @@
 const BOARD_SIZE = 8
 const ASCII_NUM_OF_A = 65
 
-const WHITE_PLAYER = "white"
-const BLACK_PLAYER = "black"
+// Player colors
+const WHITE = "white"
+const BLACK = "black"
 
+// Player's data
+const WHITE_PLAYER = new Player(WHITE)
+const BLACK_PLAYER = new Player(BLACK)
+
+// Piece types
 const ILLEGAL = "il"
 const SOLDIER = "soldier"
 const KING = "king"
 const EMPTY = "e"
 
+// Move types
+const MOVE = "move"
+const CAPTURE = "capture"
+const NEW_KING = "new king"
+const GAME_OVER = "game over"
+
 let table
 const board = [[], [], [], [], [], [], [], []]
-let currentColorTurn = WHITE_PLAYER
 const messageBox = document.querySelector(".message-box")
+let currentColorTurn = WHITE
 let cellSelected = undefined
 let isMoveAllowed = false
 
+let possibleMoves
+let possibleCaptures = []
+
 let whitePlayerTotalPieces = 12
 let blackPlayerTotalPieces = 12
-let endGame = false
+let WINNER
 
 runMainGameLoop()
 
@@ -58,7 +73,7 @@ function createBoard() {
                 // Add piece to board array
                 addNewPieceToBoardArray(i, j, EMPTY, EMPTY)
                 td.addEventListener("click", () => {
-                    if (!endGame) handleCellClick(td)
+                    handleCellClick(td)
                 })
             }
             td.classList.add(cellBgColor)
@@ -97,27 +112,64 @@ function createPieces() {
 }
 
 function handleCellClick(cell) {
-    const pieceClicked = getPieceFromCell(cell)
+    if (!isGameOver()) {
+        const pieceClicked = getPieceFromCell(cell)
 
-    // Click on a current player's piece
-    if (pieceClicked.color === currentColorTurn) {
-        // Clear all previous possible moves
-        removePossibleMoves()
-        // Select new cell
-        selectCellClick(cell)
-        // Show possible moves of selected cell
-        let possibleMoves = pieceClicked.getPossibleMoves()
-        showPossibleMoves(possibleMoves)
+        // Click on a current player's piece
+        if (pieceClicked.color === currentColorTurn) {
+            // Clear all previous possible moves
+            removePossibleMoves()
+            // Select new cell
+            selectCellClick(cell)
+            // Show possible moves of selected cell
+            possibleMoves = pieceClicked.getPossibleMoves()
+            showPossibleMoves(possibleMoves)
 
-        // Click on a valid empty cell
-    } else if (isValidCellDestination(pieceClicked, cell)) {
-        const selectedPiece = getPieceFromCell(cellSelected)
-        isMoveAllowed = true
-        movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
-
-        removePossibleMoves()
-        removeSelectedCell()
-        switchTurn()
-        isMoveAllowed = false
+            // Click on a valid empty cell to move to
+        } else if (isValidCellDestination(pieceClicked, cell)) {
+            const selectedPiece = getPieceFromCell(cellSelected)
+            isMoveAllowed = true
+            let previousRow = selectedPiece.row
+            let previousCol = selectedPiece.col
+            movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
+            // console.log(board[previousRow][previousCol], selectedPiece)
+            let capturedPiece = getCapturedPieceBetween(
+                board[previousRow][previousCol],
+                selectedPiece
+            )
+            if (capturedPiece.type === (SOLDIER || KING)) {
+                console.log(capturedPiece)
+                removePieceFromBoardArray(capturedPiece)
+                erasePieceFromCell(getCellFromPiece(capturedPiece))
+                capturedPiece.color === WHITE
+                    ? WHITE_PLAYER.pieceCaptured(capturedPiece)
+                    : BLACK_PLAYER.pieceCaptured(capturedPiece)
+                updateMessageBox(CAPTURE, selectedPiece, capturedPiece)
+            } else {
+                updateMessageBox(MOVE, selectedPiece)
+            }
+            removePossibleMoves()
+            removeSelectedCell()
+            switchTurn()
+            isMoveAllowed = false
+            isGameOver()
+        }
+    } else {
+        updateMessageBox(GAME_OVER)
     }
+}
+
+// TODO: Also handle case when the opponent's last piece has no valid possible moves left
+function isGameOver() {
+    if (WHITE_PLAYER.piecesLeft === 0) {
+        WINNER = BLACK_PLAYER
+    }
+    if (BLACK_PLAYER.piecesLeft === 0) {
+        WINNER = WHITE_PLAYER
+    }
+    if (WINNER != undefined) {
+        updateMessageBox(GAME_OVER, undefined, undefined, currentColorTurn)
+        return true
+    }
+    return false
 }

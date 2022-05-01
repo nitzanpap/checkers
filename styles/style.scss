@@ -45,10 +45,12 @@ body {
     .message-box-capture {
         color: blue;
     }
-    .message-box-check {
+    .message-box-new-king {
         color: crimson;
     }
-    .message-box-checkmate {
+    // FIXME: .message-box-game-over class is applied when demanded but does not take precedent,
+    // although it should.
+    .message-box-game-over {
         color: $cell-hover-color;
         text-decoration: wavy underline 4px $cell-hover-color;
         text-underline-offset: 10px;
