@@ -166,6 +166,7 @@ function getCapturedPieceBetween(previousPiece, currentPiece) {
     return board[capturedRow][capturedCol]
 }
 
+// TODO: Decide if this function is necessary. If so, incorporate it in the code.
 function clearPossibleCaptures() {
     possibleCaptures = []
 }
