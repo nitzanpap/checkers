@@ -106,7 +106,16 @@ function removePossibleMoves() {
 }
 
 function switchTurn() {
-    currentColorTurn = currentColorTurn === "white" ? "black" : "white"
+    if (currentPlayerTurn === WHITE_PLAYER) {
+        WHITE_PLAYER.isItThisPlayerTurn = false
+        BLACK_PLAYER.isItThisPlayerTurn = true
+        currentPlayerTurn = BLACK_PLAYER
+    } else {
+        WHITE_PLAYER.isItThisPlayerTurn = true
+        BLACK_PLAYER.isItThisPlayerTurn = false
+        currentPlayerTurn = WHITE_PLAYER
+    }
+    opponentPlayer = currentPlayerTurn === WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER
 }
 
 function selectCellClick(cell) {
@@ -167,4 +176,14 @@ function erasePieceFromCell(cell) {
 
 function removePieceFromBoardArray(piece) {
     board[piece.row][piece.col] = new Piece(piece.row, piece.col, EMPTY, EMPTY)
+}
+
+function getAllPossibleMovesOfPlayer(player) {
+    let allPossibleMovesOfPlayer = []
+    for (let row of board) {
+        for (let piece of row) {
+            if (piece.color === player.color) allPossibleMovesOfPlayer += piece.getPossibleMoves()
+        }
+    }
+    return allPossibleMovesOfPlayer
 }

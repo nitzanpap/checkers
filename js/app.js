@@ -24,7 +24,6 @@ const GAME_OVER = "game over"
 let table
 const board = [[], [], [], [], [], [], [], []]
 const messageBox = document.querySelector(".message-box")
-let currentColorTurn = WHITE
 let cellSelected = undefined
 let isMoveAllowed = false
 
@@ -33,6 +32,10 @@ let possibleCaptures = []
 
 let whitePlayerTotalPieces = 12
 let blackPlayerTotalPieces = 12
+
+let currentPlayerTurn = WHITE_PLAYER
+let opponentPlayer = BLACK_PLAYER
+
 let WINNER
 
 runMainGameLoop()
@@ -112,11 +115,11 @@ function createPieces() {
 }
 
 function handleCellClick(cell) {
-    if (!isGameOver()) {
+    if (WINNER === undefined) {
         const pieceClicked = getPieceFromCell(cell)
 
         // Click on a current player's piece
-        if (pieceClicked.color === currentColorTurn) {
+        if (pieceClicked.color === currentPlayerTurn.color) {
             // Clear all previous possible moves
             removePossibleMoves()
             // Select new cell
@@ -132,13 +135,11 @@ function handleCellClick(cell) {
             let previousRow = selectedPiece.row
             let previousCol = selectedPiece.col
             movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
-            // console.log(board[previousRow][previousCol], selectedPiece)
             let capturedPiece = getCapturedPieceBetween(
                 board[previousRow][previousCol],
                 selectedPiece
             )
             if (capturedPiece.type === (SOLDIER || KING)) {
-                console.log(capturedPiece)
                 removePieceFromBoardArray(capturedPiece)
                 erasePieceFromCell(getCellFromPiece(capturedPiece))
                 capturedPiece.color === WHITE
@@ -159,16 +160,12 @@ function handleCellClick(cell) {
     }
 }
 
-// TODO: Also handle case when the opponent's last piece has no valid possible moves left
 function isGameOver() {
-    if (WHITE_PLAYER.piecesLeft === 0) {
-        WINNER = BLACK_PLAYER
-    }
-    if (BLACK_PLAYER.piecesLeft === 0) {
-        WINNER = WHITE_PLAYER
-    }
+    // End the game if The player has no more pieces on the board, or if his pieces are all unable to move.
+    if (currentPlayerTurn.piecesLeft === 0 || getAllPossibleMovesOfPlayer(currentPlayerTurn) === "")
+        WINNER = opponentPlayer
     if (WINNER != undefined) {
-        updateMessageBox(GAME_OVER, undefined, undefined, currentColorTurn)
+        updateMessageBox(GAME_OVER, undefined, undefined, currentPlayerTurn.color)
         return true
     }
     return false

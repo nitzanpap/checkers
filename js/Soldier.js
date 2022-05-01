@@ -80,7 +80,6 @@ class Soldier extends Piece {
             this.getMovesInDirection(result, this.row, this.col, -1, 1)
             this.getMovesInDirection(result, this.row, this.col, -1, -1)
         }
-        console.log(result)
         return result
     }
 }
