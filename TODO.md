@@ -16,5 +16,5 @@
 ## Extra
 
 - [x] Turn soldiers that reach the opponents baseline into queens.
-- [ ] Code the possible and capture moves of the queen piece.
+- [x] Code the possible and capture moves of the queen piece.
 - [ ] Switch turns only if the piece that made a capture has no more possible capture moves left (multiple jumps).
