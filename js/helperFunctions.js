@@ -1,28 +1,14 @@
-function drawPieceInit(cell, type, cellColor) {
-    const pieceImg = document.createElement("img")
-    pieceImg.className += "piece " + type
-    pieceImg.src = "styles/imgs/pieces/" + cellColor + "_" + type + ".png"
-    cell.appendChild(pieceImg)
-}
-
-function drawPieceInCell(cell) {
-    cell.appendChild(cellSelected.children[0])
-}
-
-function isCoordinateInBounds(i, j) {
-    return i >= 0 && i <= 7 && j >= 0 && j <= 7
-}
-
 function coordinateToCheckersCoordinate(row, col) {
-    return String.fromCharCode(ASCII_NUM_OF_A + row) + (col + 1)
+    let asciiNumOfA = 65
+    return String.fromCharCode(asciiNumOfA + row) + (col + 1)
 }
 
 function getPieceFromCell(cell) {
-    return board[Math.floor(cell.id.slice(2) / 8)][cell.id.slice(2) % 8]
+    return board[Math.floor(cell.id.slice(2) / BOARD_SIZE)][cell.id.slice(2) % BOARD_SIZE]
 }
 
 function getCellFromPiece(piece) {
-    return document.querySelector("#td" + (piece.row * 8 + piece.col))
+    return document.querySelector("#td" + (piece.row * BOARD_SIZE + piece.col))
 }
 
 // TODO: Refactor to a new BoardData class
@@ -98,19 +84,6 @@ function removePossibleMoves() {
             board[i][j].threatend = false
         }
     }
-}
-
-function switchTurn() {
-    if (currentPlayerTurn === WHITE_PLAYER) {
-        WHITE_PLAYER.isItThisPlayerTurn = false
-        BLACK_PLAYER.isItThisPlayerTurn = true
-        currentPlayerTurn = BLACK_PLAYER
-    } else {
-        WHITE_PLAYER.isItThisPlayerTurn = true
-        BLACK_PLAYER.isItThisPlayerTurn = false
-        currentPlayerTurn = WHITE_PLAYER
-    }
-    opponentPlayer = currentPlayerTurn === WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER
 }
 
 function selectCellClick(cell) {

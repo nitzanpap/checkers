@@ -1,8 +1,6 @@
 // TODO: divide all functions into $ file: app (Game manager), uiInteraction, logic, BoardData, utils
 
 const BOARD_SIZE = 8
-// TODO: Move to relevant function.
-const ASCII_NUM_OF_A = 65
 
 // Player colors
 const WHITE = "white"
@@ -35,14 +33,14 @@ let possibleMoves
 let possibleCaptures = []
 
 let currentPlayerTurn = WHITE_PLAYER
-let opponentPlayer = BLACK_PLAYER
 
 let WINNER
 
-runMainGameLoop()
+window.addEventListener("load", () => {
+    runMainGame()
+})
 
-//
-function runMainGameLoop() {
+function runMainGame() {
     createBoard()
     createPieces()
 }
@@ -119,60 +117,57 @@ function createPieces() {
 // TODO: To avoid unecessary indentation, use early returns.
 // TODO: Refactor click on cell to 2 different functions that handle those cases.
 function handleCellClick(cell) {
-    if (WINNER === undefined) {
-        const pieceClicked = getPieceFromCell(cell)
-
-        // Click on a current players piece
-        if (pieceClicked.color === currentPlayerTurn.color) {
-            // Clear all previous possible moves
-            removePossibleMoves()
-            // Select new cell
-            selectCellClick(cell)
-            // Show possible moves of selected cell
-            possibleMoves = pieceClicked.getPossibleMoves()
-            showPossibleMoves(possibleMoves)
-
-            // Click on a valid empty cell to move to
-        } else if (isValidCellDestination(pieceClicked, cell)) {
-            const selectedPiece = getPieceFromCell(cellSelected)
-            isMoveAllowed = true
-            let previousRow = selectedPiece.row
-            let previousCol = selectedPiece.col
-            movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
-            let capturedPiece = getCapturedPieceBetween(
-                board[previousRow][previousCol],
-                selectedPiece
-            )
-            if (capturedPiece.type === SOLDIER || capturedPiece.type === QUEEN) {
-                removePieceFromBoardArray(capturedPiece)
-                erasePieceFromCell(getCellFromPiece(capturedPiece))
-                capturedPiece.color === WHITE
-                    ? WHITE_PLAYER.pieceCaptured(capturedPiece)
-                    : BLACK_PLAYER.pieceCaptured(capturedPiece)
-                updateMessageBox(CAPTURE, selectedPiece, capturedPiece)
-            } else {
-                updateMessageBox(MOVE, selectedPiece)
-            }
-            // Turn the soldier to a queen if it reached its last row
-            if (selectedPiece.type === SOLDIER && selectedPiece.row === selectedPiece.lastRow) {
-                turnSoldierToQueen(selectedPiece)
-                updateMessageBox(NEW_QUEEN, selectedPiece)
-            }
-            removePossibleMoves()
-            removeSelectedCell()
-            switchTurn()
-            isMoveAllowed = false
-            isGameOver()
-        }
-    } else {
+    if (WINNER !== undefined) {
         updateMessageBox(GAME_OVER)
+        return
+    }
+    const pieceClicked = getPieceFromCell(cell)
+
+    // Click on a current players piece
+    if (pieceClicked.color === currentPlayerTurn.color) {
+        // Clear all previous possible moves
+        removePossibleMoves()
+        // Select new cell
+        selectCellClick(cell)
+        // Show possible moves of selected cell
+        possibleMoves = pieceClicked.getPossibleMoves()
+        showPossibleMoves(possibleMoves)
+
+        // Click on a valid empty cell to move to
+    } else if (isValidCellDestination(pieceClicked, cell)) {
+        const selectedPiece = getPieceFromCell(cellSelected)
+        isMoveAllowed = true
+        let previousRow = selectedPiece.row
+        let previousCol = selectedPiece.col
+        movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
+        let capturedPiece = getCapturedPieceBetween(board[previousRow][previousCol], selectedPiece)
+        if (capturedPiece.type === SOLDIER || capturedPiece.type === QUEEN) {
+            removePieceFromBoardArray(capturedPiece)
+            erasePieceFromCell(getCellFromPiece(capturedPiece))
+            capturedPiece.color === WHITE
+                ? WHITE_PLAYER.pieceCaptured(capturedPiece)
+                : BLACK_PLAYER.pieceCaptured(capturedPiece)
+            updateMessageBox(CAPTURE, selectedPiece, capturedPiece)
+        } else {
+            updateMessageBox(MOVE, selectedPiece)
+        }
+        // Turn the soldier to a queen if it reached its last row
+        if (selectedPiece.type === SOLDIER && selectedPiece.row === selectedPiece.lastRow) {
+            turnSoldierToQueen(selectedPiece)
+            updateMessageBox(NEW_QUEEN, selectedPiece)
+        }
+        removePossibleMoves()
+        removeSelectedCell()
+        switchTurn()
+        isMoveAllowed = false
+        isGameOver()
     }
 }
 
 function isGameOver() {
     // End the game if The player has no more pieces on the board, or if his pieces are all unable to move.
     if (currentPlayerTurn.piecesLeft === 0 || getAllPossibleMovesOfPlayer(currentPlayerTurn) === "")
-        WINNER = opponentPlayer
+        WINNER = getOpponentPlayer(currentPlayerTurn)
     if (WINNER != undefined) {
         updateMessageBox(GAME_OVER, undefined, undefined, currentPlayerTurn.color)
         return true
