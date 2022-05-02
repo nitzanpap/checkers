@@ -1,5 +1,3 @@
-// TODO: divide all functions into $ file: app (Game manager), uiInteraction, logic, BoardData, utils
-
 const BOARD_SIZE = 8
 
 // Player colors
@@ -120,7 +118,6 @@ function createPieces() {
         }
     }
 }
-// TODO: Refactor click on cell to 2 different functions that handle those cases.
 function handleCellClick(cell) {
     if (WINNER !== undefined) {
         updateMessageBox(GAME_OVER)
