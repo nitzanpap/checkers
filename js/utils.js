@@ -2,6 +2,11 @@ function isCoordinateInBounds(i, j) {
     return i >= 0 && i <= 7 && j >= 0 && j <= 7
 }
 
+function coordinateToCheckersCoordinate(row, col) {
+    let asciiNumOfA = 65
+    return String.fromCharCode(asciiNumOfA + row) + (col + 1)
+}
+
 function switchTurn() {
     currentPlayerTurn = currentPlayerTurn === WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER
 }

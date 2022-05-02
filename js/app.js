@@ -120,7 +120,6 @@ function createPieces() {
         }
     }
 }
-// TODO: To avoid unecessary indentation, use early returns.
 // TODO: Refactor click on cell to 2 different functions that handle those cases.
 function handleCellClick(cell) {
     if (WINNER !== undefined) {
@@ -131,43 +130,41 @@ function handleCellClick(cell) {
 
     // Click on a current players piece
     if (pieceClicked.color === currentPlayerTurn.color) {
-        // Clear all previous possible moves
-        removePossibleMoves()
-        // Select new cell
-        selectCellClick(cell)
-        // Show possible moves of selected cell
-        possibleMoves = pieceClicked.getPossibleMoves()
-        showPossibleMoves(possibleMoves)
+        handleAllyPieceClick(cell, pieceClicked)
 
         // Click on a valid empty cell to move to
     } else if (isValidCellDestination(pieceClicked, cell)) {
-        const selectedPiece = getPieceFromCell(cellSelected)
-        isMoveAllowed = true
-        let previousRow = selectedPiece.row
-        let previousCol = selectedPiece.col
-        movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
-        let capturedPiece = getCapturedPieceBetween(board[previousRow][previousCol], selectedPiece)
-        if (capturedPiece.type === SOLDIER || capturedPiece.type === QUEEN) {
-            removePieceFromBoardArray(capturedPiece)
-            erasePieceFromCell(getCellFromPiece(capturedPiece))
-            capturedPiece.color === WHITE
-                ? WHITE_PLAYER.pieceCaptured(capturedPiece)
-                : BLACK_PLAYER.pieceCaptured(capturedPiece)
-            updateMessageBox(CAPTURE, selectedPiece, capturedPiece)
-        } else {
-            updateMessageBox(MOVE, selectedPiece)
-        }
-        // Turn the soldier to a queen if it reached its last row
-        if (selectedPiece.type === SOLDIER && selectedPiece.row === selectedPiece.lastRow) {
-            turnSoldierToQueen(selectedPiece)
-            updateMessageBox(NEW_QUEEN, selectedPiece)
-        }
-        removePossibleMoves()
-        removeSelectedCell()
-        switchTurn()
-        isMoveAllowed = false
-        isGameOver()
+        handleValidEmptyCellClick(pieceClicked)
     }
+}
+
+function handleValidEmptyCellClick(pieceClicked) {
+    const selectedPiece = getPieceFromCell(cellSelected)
+    isMoveAllowed = true
+    let previousRow = selectedPiece.row
+    let previousCol = selectedPiece.col
+    movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
+    let capturedPiece = getCapturedPieceBetween(board[previousRow][previousCol], selectedPiece)
+    if (capturedPiece.type === SOLDIER || capturedPiece.type === QUEEN) {
+        removePieceFromBoardArray(capturedPiece)
+        erasePieceFromCell(getCellFromPiece(capturedPiece))
+        capturedPiece.color === WHITE
+            ? WHITE_PLAYER.pieceCaptured(capturedPiece)
+            : BLACK_PLAYER.pieceCaptured(capturedPiece)
+        updateMessageBox(CAPTURE, selectedPiece, capturedPiece)
+    } else {
+        updateMessageBox(MOVE, selectedPiece)
+    }
+    // Turn the soldier to a queen if it reached its last row
+    if (selectedPiece.type === SOLDIER && selectedPiece.row === selectedPiece.lastRow) {
+        turnSoldierToQueen(selectedPiece)
+        updateMessageBox(NEW_QUEEN, selectedPiece)
+    }
+    removePossibleMoves()
+    removeSelectedCell()
+    switchTurn()
+    isMoveAllowed = false
+    isGameOver()
 }
 
 function isGameOver() {
