@@ -25,6 +25,7 @@ function addNewPieceToBoardArray(i, j, type, color) {
 }
 
 function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
+    const messageBox = document.querySelector(".message-box")
     messageBox.innerText = ""
     messageBox.className = "message-box"
     // if the game is over

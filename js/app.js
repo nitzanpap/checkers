@@ -25,7 +25,6 @@ const GAME_OVER = "game over"
 
 let table
 const board = [[], [], [], [], [], [], [], []]
-const messageBox = document.querySelector(".message-box")
 let cellSelected = undefined
 let isMoveAllowed = false
 
