@@ -22,7 +22,6 @@ class Piece {
     getPossibleMoves(board) {
         // Get relative moves
         let absoluteMoves = []
-        // absoluteMoves = this.getKnightRelativeMoves()
         if (this.type === ILLEGAL) {
             absoluteMoves = []
         } else if (this.type === EMPTY) {

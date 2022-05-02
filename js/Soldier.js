@@ -1,6 +1,7 @@
 class Soldier extends Piece {
-    constructor(row, col, type, color) {
-        super(row, col, type, color)
+    constructor(row, col, color) {
+        super(row, col, SOLDIER, color)
+        this.lastRow = this.color === WHITE ? BOARD_SIZE - 1 : 0
     }
 
     getPossibleMoves(board) {

@@ -1,8 +1,8 @@
 function drawPieceInit(cell, type, cellColor) {
-    const piece = document.createElement("img")
-    piece.className += "piece " + type
-    piece.src = "styles/imgs/pieces/" + cellColor + "_" + type + ".png"
-    cell.appendChild(piece)
+    const pieceImg = document.createElement("img")
+    pieceImg.className += "piece " + type
+    pieceImg.src = "styles/imgs/pieces/" + cellColor + "_" + type + ".png"
+    cell.appendChild(pieceImg)
 }
 
 function drawPieceInCell(cell) {
@@ -39,9 +39,9 @@ function addNewPieceToBoardArray(i, j, type, color) {
     } else if (type === EMPTY) {
         board[i][j] = new Piece(i, j, type, color)
     } else if (type === SOLDIER) {
-        board[i][j] = new Soldier(i, j, type, color)
+        board[i][j] = new Soldier(i, j, color)
     } else if (type === QUEEN) {
-        board[i][j] = new Queen(i, j, type, color)
+        board[i][j] = new Queen(i, j, color)
     }
 }
 
@@ -149,13 +149,14 @@ function isValidCellDestination(pieceClicked, cell) {
 function updatedBoardPieceLocation(rowFrom, colFrom, rowTo, colTo) {
     board[rowTo][colTo] = board[rowFrom][colFrom]
     board[rowFrom][colFrom] = new Piece(Number(rowFrom), Number(colFrom), EMPTY, EMPTY)
-    board[rowTo][colTo].setRowAndColumn(rowTo, colTo)
+    let piece = board[rowTo][colTo]
+    piece.setRowAndColumn(rowTo, colTo)
 }
 
 function movePiece(piece, rowTo, colTo) {
     // Move piece in the board array
     updatedBoardPieceLocation(piece.row, piece.col, rowTo, colTo)
-    // Draw piece in it's location according to its data
+    // Draw piece in its location according to its data
     drawPieceInCell(getCellFromPiece(piece))
 }
 
@@ -188,4 +189,11 @@ function getAllPossibleMovesOfPlayer(player) {
         }
     }
     return allPossibleMovesOfPlayer
+}
+
+function turnSoldierToQueen(piece) {
+    const cell = getCellFromPiece(piece)
+    cell.replaceChildren()
+    board[piece.row][piece.col] = new Queen(piece.row, piece.col, piece.color)
+    drawPieceInit(getCellFromPiece(piece), QUEEN, piece.color)
 }

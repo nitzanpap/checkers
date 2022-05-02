@@ -5,7 +5,7 @@ const ASCII_NUM_OF_A = 65
 const WHITE = "white"
 const BLACK = "black"
 
-// Player's data
+// Players data
 const WHITE_PLAYER = new Player(WHITE)
 const BLACK_PLAYER = new Player(BLACK)
 
@@ -116,7 +116,7 @@ function handleCellClick(cell) {
     if (WINNER === undefined) {
         const pieceClicked = getPieceFromCell(cell)
 
-        // Click on a current player's piece
+        // Click on a current players piece
         if (pieceClicked.color === currentPlayerTurn.color) {
             // Clear all previous possible moves
             removePossibleMoves()
@@ -146,6 +146,11 @@ function handleCellClick(cell) {
                 updateMessageBox(CAPTURE, selectedPiece, capturedPiece)
             } else {
                 updateMessageBox(MOVE, selectedPiece)
+            }
+            // Turn the soldier to a queen if it reached its last row
+            if (selectedPiece.type === SOLDIER && selectedPiece.row === selectedPiece.lastRow) {
+                turnSoldierToQueen(selectedPiece)
+                updateMessageBox(NEW_QUEEN, selectedPiece)
             }
             removePossibleMoves()
             removeSelectedCell()

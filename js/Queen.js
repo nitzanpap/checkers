@@ -1,6 +1,6 @@
 class Queen extends Piece {
-    constructor(row, col, type, color) {
-        super(row, col, type, color)
+    constructor(row, col, color) {
+        super(row, col, QUEEN, color)
     }
 
     getPossibleMoves(board) {
