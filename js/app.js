@@ -10,12 +10,13 @@ const WHITE_PLAYER = new Player(WHITE)
 const BLACK_PLAYER = new Player(BLACK)
 
 // Piece types
-const ILLEGAL = "il"
 const SOLDIER = "soldier"
 const QUEEN = "queen"
 const EMPTY = "e"
+// All the white cells are illegal
+const ILLEGAL = "il"
 
-// Move types
+// Types of scenarios
 const MOVE = "move"
 const CAPTURE = "capture"
 const NEW_QUEEN = "new queen"
@@ -29,9 +30,6 @@ let isMoveAllowed = false
 
 let possibleMoves
 let possibleCaptures = []
-
-let whitePlayerTotalPieces = 12
-let blackPlayerTotalPieces = 12
 
 let currentPlayerTurn = WHITE_PLAYER
 let opponentPlayer = BLACK_PLAYER

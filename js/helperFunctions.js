@@ -24,6 +24,7 @@ function getPieceFromCell(cell) {
 function getCellFromPiece(piece) {
     return document.querySelector("#td" + (piece.row * 8 + piece.col))
 }
+
 function getPieceFromTypeAndColor(type, color) {
     for (let row of board) {
         for (let piece of row) {
