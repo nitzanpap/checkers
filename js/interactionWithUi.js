@@ -44,7 +44,6 @@ function showPossibleMovesAndCaptures(possibleMoves) {
     }
     // Show all possible captures
     for (let possibleUnderThreat of possibleUnderThreats) {
-        console.log(possibleUnderThreat)
         if (possibleUnderThreat[2] === THREATENEND) {
             const cell = getCellFromPiece(board[possibleUnderThreat[0]][possibleUnderThreat[1]])
             cell.classList.add("threatened")
