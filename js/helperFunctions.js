@@ -25,14 +25,7 @@ function getCellFromPiece(piece) {
     return document.querySelector("#td" + (piece.row * 8 + piece.col))
 }
 
-function getPieceFromTypeAndColor(type, color) {
-    for (let row of board) {
-        for (let piece of row) {
-            if (piece.type === type && piece.color === color) return piece
-        }
-    }
-}
-
+// TODO: Refactor to a new BoardData class
 function addNewPieceToBoardArray(i, j, type, color) {
     if (type === ILLEGAL) {
         board[i][j] = new Piece(i, j, type, color)
@@ -135,6 +128,7 @@ function removeSelectedCell() {
     cellSelected = undefined
 }
 
+// TODO: Figure this function out and
 function isEmptyCellInPossibleMoves(emptyCell) {
     return [...emptyCell.classList].indexOf("possible-move") !== -1
 }

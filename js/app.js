@@ -1,4 +1,7 @@
+// TODO: divide all functions into $ file: app (Game manager), uiInteraction, logic, BoardData, utils
+
 const BOARD_SIZE = 8
+// TODO: Move to relevant function.
 const ASCII_NUM_OF_A = 65
 
 // Player colors
@@ -38,6 +41,7 @@ let WINNER
 
 runMainGameLoop()
 
+//
 function runMainGameLoop() {
     createBoard()
     createPieces()
@@ -85,6 +89,7 @@ function createBoard() {
     console.log(board)
 }
 
+// TODO: Seperate interaction with UI and Logic into seperate files.
 function createPieces() {
     // Draw two special rows
     for (let i = 0; i <= 2; i++) {
@@ -111,7 +116,8 @@ function createPieces() {
         }
     }
 }
-
+// TODO: To avoid unecessary indentation, use early returns.
+// TODO: Refactor click on cell to 2 different functions that handle those cases.
 function handleCellClick(cell) {
     if (WINNER === undefined) {
         const pieceClicked = getPieceFromCell(cell)
