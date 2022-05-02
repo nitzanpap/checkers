@@ -98,6 +98,7 @@ function showPossibleMoves(possibleMoves) {
 
 function removePossibleMoves() {
     for (let i = 0; i < BOARD_SIZE; i++) {
+        possibleCaptures = []
         for (let j = 0; j < BOARD_SIZE; j++) {
             table.rows[i].cells[j].classList.remove("possible-move")
             table.rows[i].cells[j].classList.remove("threatend")
@@ -174,7 +175,7 @@ function clearPossibleCaptures() {
 }
 
 function erasePieceFromCell(cell) {
-    cell.removeChild(cell.children[0])
+    cell.replaceChildren()
 }
 
 function removePieceFromBoardArray(piece) {
@@ -193,7 +194,7 @@ function getAllPossibleMovesOfPlayer(player) {
 
 function turnSoldierToQueen(piece) {
     const cell = getCellFromPiece(piece)
-    cell.replaceChildren()
+    erasePieceFromCell(cell)
     board[piece.row][piece.col] = new Queen(piece.row, piece.col, piece.color)
     drawPieceInit(getCellFromPiece(piece), QUEEN, piece.color)
 }

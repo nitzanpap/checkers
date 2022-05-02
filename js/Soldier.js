@@ -5,9 +5,7 @@ class Soldier extends Piece {
     }
 
     getPossibleMoves(board) {
-        // Get relative moves
         let absoluteMoves = []
-        // absoluteMoves = this.getKnightRelativeMoves()
         if (this.type === SOLDIER) {
             absoluteMoves = this.getSoldierRelativeMoves()
         } else {

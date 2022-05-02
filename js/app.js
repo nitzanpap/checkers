@@ -90,7 +90,7 @@ function createPieces() {
     for (let i = 0; i <= 2; i++) {
         let tr = document.querySelector("#tr" + i)
         let cellColor = "white"
-        let pieceType = SOLDIER
+        let pieceType = QUEEN
         // Runs twice - Once for the white pieces, and once for the black pieces
         for (let k = 1; k <= 2; k++) {
             // k alternates between creating the white and black pieces
@@ -137,7 +137,7 @@ function handleCellClick(cell) {
                 board[previousRow][previousCol],
                 selectedPiece
             )
-            if (capturedPiece.type === (SOLDIER || QUEEN)) {
+            if (capturedPiece.type === SOLDIER || capturedPiece.type === QUEEN) {
                 removePieceFromBoardArray(capturedPiece)
                 erasePieceFromCell(getCellFromPiece(capturedPiece))
                 capturedPiece.color === WHITE
