@@ -10,6 +10,9 @@ function getPieceFromCell(cell) {
 function getCellFromPiece(piece) {
     return document.querySelector("#td" + (piece.row * BOARD_SIZE + piece.col))
 }
+function getCellInCoordinate(i, j) {
+    return table.rows[i].cells[j]
+}
 
 // TODO: Refactor to a new BoardData class
 function addNewPieceToBoardArray(i, j, type, color) {
@@ -77,8 +80,8 @@ function showPossibleMoves(possibleMoves) {
 }
 
 function removePossibleMoves() {
+    possibleCaptures = []
     for (let i = 0; i < BOARD_SIZE; i++) {
-        possibleCaptures = []
         for (let j = 0; j < BOARD_SIZE; j++) {
             table.rows[i].cells[j].classList.remove("possible-move")
             table.rows[i].cells[j].classList.remove("threatend")

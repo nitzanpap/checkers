@@ -46,8 +46,15 @@ function runMainGame() {
 
 // This function creates and draws the chess board
 function createBoard() {
-    // Create and draw board-container table
     const body = document.querySelector("body")
+
+    // Create a message box
+    const messageBox = document.createElement("h2")
+    messageBox.className = "message-box"
+    messageBox.innerText = "Checkers Game"
+    body.appendChild(messageBox)
+
+    // Create and draw board-container table
     table = document.createElement("table")
     table.className = "board-container"
     body.appendChild(table)
