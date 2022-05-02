@@ -30,7 +30,7 @@ function removePieceFromBoardArray(piece) {
 
 // TODO: Decide if this function is necessary. If so, incorporate it in the code.
 function clearPossibleCaptures() {
-    possibleCaptures = []
+    possibleUnderThreats = []
 }
 
 function turnSoldierToQueen(piece) {
@@ -44,7 +44,9 @@ function getAllPossibleMovesOfPlayer(player) {
     let allPossibleMovesOfPlayer = []
     for (let row of board) {
         for (let piece of row) {
-            if (piece.color === player.color) allPossibleMovesOfPlayer += piece.getPossibleMoves()
+            const piecePossibleMoves = piece.getPossibleMoves()
+            if (piece.color === player.color && piecePossibleMoves.length != 0)
+                allPossibleMovesOfPlayer.push(piecePossibleMoves)
         }
     }
     return allPossibleMovesOfPlayer

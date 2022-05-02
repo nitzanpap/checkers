@@ -6,7 +6,7 @@ class Piece {
         this.color = color
         if (this.color === "e") this.opponentColor = "e"
         else this.opponentColor = color === WHITE ? BLACK : WHITE
-        this.threatend = false
+        this.threatened = false
     }
 
     setRowAndColumn(row, col) {
@@ -15,8 +15,7 @@ class Piece {
     }
 
     threatenThisPiece(piece) {
-        piece.threatend = true
-        getCellFromPiece(piece).classList.add("threatend")
+        piece.threatened = true
     }
 
     getPossibleMoves(board) {

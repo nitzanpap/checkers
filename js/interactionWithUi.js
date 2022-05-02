@@ -16,6 +16,7 @@ function erasePieceFromCell(cell) {
 function isEmptyCellInPossibleMoves(emptyCell) {
     return [...emptyCell.classList].indexOf("possible-move") !== -1
 }
+
 function isValidCellDestination(pieceClicked, cell) {
     return (
         pieceClicked.color === EMPTY &&
@@ -24,23 +25,29 @@ function isValidCellDestination(pieceClicked, cell) {
     )
 }
 
-function handleAllyPieceClick(cell, pieceClicked) {
-    // Clear all previous possible moves
-    removePossibleMoves()
-    // Select new cell
-    selectCellClick(cell)
-    // Show possible moves of selected cell
-    possibleMoves = pieceClicked.getPossibleMoves()
-    showPossibleMoves(possibleMoves)
-}
-
-function removePossibleMoves() {
-    possibleCaptures = []
+function removePossibleMovesAndCaptures() {
+    possibleUnderThreats = []
+    // Clear all previous possible moves and captures
     for (let i = 0; i < BOARD_SIZE; i++) {
         for (let j = 0; j < BOARD_SIZE; j++) {
-            table.rows[i].cells[j].classList.remove("possible-move")
-            table.rows[i].cells[j].classList.remove("threatend")
-            board[i][j].threatend = false
+            table.rows[i].cells[j].classList.remove("possible-move", "threatened")
+            board[i][j].threatened = false
+        }
+    }
+}
+
+function showPossibleMovesAndCaptures(possibleMoves) {
+    // Show all possible moves
+    for (let possibleMove of possibleMoves) {
+        const cell = getCellFromPiece(board[possibleMove[0]][possibleMove[1]])
+        cell.classList.add("possible-move")
+    }
+    // Show all possible captures
+    for (let possibleUnderThreat of possibleUnderThreats) {
+        console.log(possibleUnderThreat)
+        if (possibleUnderThreat[2] === THREATENEND) {
+            const cell = getCellFromPiece(board[possibleUnderThreat[0]][possibleUnderThreat[1]])
+            cell.classList.add("threatened")
         }
     }
 }
@@ -53,14 +60,6 @@ function selectCellClick(cell) {
     // Select the given cell and update cellSelected accordingly
     cellSelected = cell
     cell.classList.add("selected-cell")
-}
-
-function showPossibleMoves(possibleMoves) {
-    // Clear all previous possible moves
-    for (let possibleMove of possibleMoves) {
-        const cell = getCellFromPiece(board[possibleMove[0]][possibleMove[1]])
-        cell.classList.add("possible-move")
-    }
 }
 
 function removeSelectedCell() {
@@ -110,15 +109,4 @@ function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
             " moved to " +
             coordinateToCheckersCoordinate(piece1.row, piece1.col)
     }
-}
-
-function getPieceFromCell(cell) {
-    return board[Math.floor(cell.id.slice(2) / BOARD_SIZE)][cell.id.slice(2) % BOARD_SIZE]
-}
-
-function getCellFromPiece(piece) {
-    return document.querySelector("#td" + (piece.row * BOARD_SIZE + piece.col))
-}
-function getCellInCoordinate(i, j) {
-    return table.rows[i].cells[j]
 }

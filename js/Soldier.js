@@ -21,19 +21,20 @@ class Soldier extends Piece {
         if (isCoordinateInBounds(i, j)) {
             // If encountered an opponent piece
             if (board[i][j].color === this.opponentColor) {
+                // If the cell after the opponent is empty
                 if (
                     isCoordinateInBounds(i + rowDirection, j + colDirection) &&
                     board[i + rowDirection][j + colDirection].type === EMPTY
                 ) {
                     this.threatenThisPiece(board[i][j])
                     result.push([i + rowDirection, j + colDirection, CAPTURE])
-                    possibleCaptures.push([i + rowDirection, j + colDirection])
+                    possibleUnderThreats.push([i, j, THREATENEND])
                 }
             }
             // If encountered an empty tile
             else if (board[i][j].color === "e") {
                 result.push([i, j, MOVE])
-                possibleCaptures.push()
+                possibleUnderThreats.push()
             }
             // If encountered an ally piece, maybe add somthing later
             else {

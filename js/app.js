@@ -18,6 +18,7 @@ const ILLEGAL = "il"
 // Types of scenarios
 const MOVE = "move"
 const CAPTURE = "capture"
+const THREATENEND = "threatened"
 const NEW_QUEEN = "new queen"
 const GAME_OVER = "game over"
 
@@ -26,8 +27,8 @@ const board = [[], [], [], [], [], [], [], []]
 let cellSelected = undefined
 let isMoveAllowed = false
 
-let possibleMoves
-let possibleCaptures = []
+let possibleMoves = []
+let possibleUnderThreats = []
 
 let currentPlayerTurn = WHITE_PLAYER
 
@@ -118,6 +119,7 @@ function createPieces() {
         }
     }
 }
+
 function handleCellClick(cell) {
     if (WINNER !== undefined) {
         updateMessageBox(GAME_OVER)
@@ -133,6 +135,16 @@ function handleCellClick(cell) {
     } else if (isValidCellDestination(pieceClicked, cell)) {
         handleValidEmptyCellClick(pieceClicked)
     }
+}
+
+function handleAllyPieceClick(cell, pieceClicked) {
+    // Clear all previous possible moves
+    removePossibleMovesAndCaptures()
+    // Select new cell
+    selectCellClick(cell)
+    // Show possible moves of selected cell
+    possibleMoves = pieceClicked.getPossibleMoves()
+    showPossibleMovesAndCaptures(possibleMoves)
 }
 
 function handleValidEmptyCellClick(pieceClicked) {
@@ -157,7 +169,7 @@ function handleValidEmptyCellClick(pieceClicked) {
         turnSoldierToQueen(selectedPiece)
         updateMessageBox(NEW_QUEEN, selectedPiece)
     }
-    removePossibleMoves()
+    removePossibleMovesAndCaptures()
     removeSelectedCell()
     switchTurn()
     isMoveAllowed = false
@@ -166,7 +178,10 @@ function handleValidEmptyCellClick(pieceClicked) {
 
 function isGameOver() {
     // End the game if The player has no more pieces on the board, or if his pieces are all unable to move.
-    if (currentPlayerTurn.piecesLeft === 0 || getAllPossibleMovesOfPlayer(currentPlayerTurn) === "")
+    if (
+        currentPlayerTurn.piecesLeft === 0 ||
+        getAllPossibleMovesOfPlayer(currentPlayerTurn).length === 0
+    )
         WINNER = getOpponentPlayer(currentPlayerTurn)
     if (WINNER != undefined) {
         updateMessageBox(GAME_OVER, undefined, undefined, currentPlayerTurn.color)
