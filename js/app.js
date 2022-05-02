@@ -90,7 +90,7 @@ function createPieces() {
     for (let i = 0; i <= 2; i++) {
         let tr = document.querySelector("#tr" + i)
         let cellColor = "white"
-        let pieceType = QUEEN
+        let pieceType = SOLDIER
         // Runs twice - Once for the white pieces, and once for the black pieces
         for (let k = 1; k <= 2; k++) {
             // k alternates between creating the white and black pieces
