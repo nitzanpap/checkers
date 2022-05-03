@@ -88,7 +88,6 @@ function createBoard() {
             tr.appendChild(td)
         }
     }
-    console.log(board)
 }
 
 // TODO: Seperate interaction with UI and Logic into seperate files.
