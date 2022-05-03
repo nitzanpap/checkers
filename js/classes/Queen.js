@@ -27,7 +27,7 @@ class Queen extends Piece {
                 ) {
                     this.threatenThisPiece(board[i][j])
                     result.push([i + rowDirection, j + colDirection, CAPTURE])
-                    possibleUnderThreats.push([i + rowDirection, j + colDirection])
+                    possibleUnderThreats.push([i, j])
                 }
             }
             // If encountered an empty tile
