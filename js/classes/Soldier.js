@@ -18,7 +18,7 @@ class Soldier extends Piece {
                 capturingMoves.push(absoluteMove)
             }
         }
-        return capturingMoves.length === 0 ? absoluteMoves : capturingMoves
+        return capturingMoves.length !== 0 ? capturingMoves : absoluteMoves
     }
 
     getMovesInDirection(result, i, j, rowDirection, colDirection) {
@@ -42,9 +42,6 @@ class Soldier extends Piece {
             else if (board[i][j].color === "e") {
                 result.push([i, j, MOVE])
                 possibleUnderThreats.push()
-            }
-            // If encountered an ally piece, maybe add somthing later
-            else {
             }
         }
     }

@@ -25,7 +25,6 @@ const GAME_OVER = "game over"
 let table
 const board = [[], [], [], [], [], [], [], []]
 let cellSelected = undefined
-let isMoveAllowed = false
 
 let possibleMoves = []
 let possibleUnderThreats = []
@@ -135,6 +134,7 @@ function handleCellClick(cell) {
     } else if (isValidCellDestination(pieceClicked, cell)) {
         handleValidEmptyCellClick(pieceClicked)
     }
+    isGameOver()
 }
 
 function handleAllyPieceClick(cell, pieceClicked) {
@@ -149,7 +149,6 @@ function handleAllyPieceClick(cell, pieceClicked) {
 // TODO: FIXME: fix enforcing capture moves
 function handleValidEmptyCellClick(pieceClicked) {
     const selectedPiece = getPieceFromCell(cellSelected)
-    isMoveAllowed = true
     let previousRow = selectedPiece.row
     let previousCol = selectedPiece.col
     movePiece(selectedPiece, pieceClicked.row, pieceClicked.col)
@@ -172,7 +171,6 @@ function handleValidEmptyCellClick(pieceClicked) {
     removePossibleMovesAndCaptures()
     removeSelectedCell()
     switchTurn()
-    isMoveAllowed = false
 }
 
 function isGameOver() {

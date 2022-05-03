@@ -40,17 +40,36 @@ function turnSoldierToQueen(piece) {
     drawPieceInit(getCellFromPiece(piece), QUEEN, piece.color)
 }
 
+// function getAllPossibleCaptureMovesOfPlayer(player) {
+//     for (let row of board) {
+//         for (let piece of row) {
+//             const piecePossibleMoves = piece.getPossibleMoves()
+//             if (piece.color === player.color && piecePossibleMoves.length != 0) {
+//                 if (piecePossibleMoves[0][2] === CAPTURE)
+//                     allPossibleCaptureMovesOfPlayer.push(piecePossibleMoves)
+//             }
+//         }
+//     }
+//     // console.log(currentPlayerTurn.color, allPossibleMovesOfPlayer.toString())
+//     return allPossibleCaptureMovesOfPlayer
+// }
+
 function getAllPossibleMovesOfPlayer(player) {
     let allPossibleMovesOfPlayer = []
+    let allPossibleCaptureMovesOfPlayer = []
     for (let row of board) {
         for (let piece of row) {
             const piecePossibleMoves = piece.getPossibleMoves()
-            if (piece.color === player.color && piecePossibleMoves.length != 0)
-                allPossibleMovesOfPlayer.push(piecePossibleMoves)
+            if (piece.color === player.color && piecePossibleMoves.length != 0) {
+                if (piecePossibleMoves[0][2] === CAPTURE)
+                    allPossibleCaptureMovesOfPlayer.push(piecePossibleMoves)
+                else allPossibleMovesOfPlayer.push(piecePossibleMoves)
+            }
         }
     }
-    // console.log(currentPlayerTurn.color, allPossibleMovesOfPlayer.toString())
-    return allPossibleMovesOfPlayer
+    return allPossibleCaptureMovesOfPlayer.length === 0
+        ? allPossibleMovesOfPlayer
+        : allPossibleCaptureMovesOfPlayer
 }
 
 function getCapturedPieceBetween(previousPiece, currentPiece) {

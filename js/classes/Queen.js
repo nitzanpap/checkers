@@ -5,12 +5,19 @@ class Queen extends Piece {
 
     getPossibleMoves(board) {
         let absoluteMoves = []
+        let capturingMoves = []
         if (this.type === QUEEN) {
             absoluteMoves = this.getQueenRelativeMoves()
         } else {
             console.log("Unknown type", type)
         }
-        return absoluteMoves
+        // TODO: When this works, make sure to incorporate it in Queen class as well.
+        for (let absoluteMove of absoluteMoves) {
+            if (absoluteMove[2] === CAPTURE) {
+                capturingMoves.push(absoluteMove)
+            }
+        }
+        return capturingMoves.length !== 0 ? capturingMoves : absoluteMoves
     }
 
     getMovesInDirection(result, i, j, rowDirection, colDirection, encounteredOpponent) {
@@ -27,7 +34,7 @@ class Queen extends Piece {
                 ) {
                     this.threatenThisPiece(board[i][j])
                     result.push([i + rowDirection, j + colDirection, CAPTURE])
-                    possibleUnderThreats.push([i, j])
+                    possibleUnderThreats.push([i, j, THREATENEND])
                 }
             }
             // If encountered an empty tile
@@ -41,9 +48,6 @@ class Queen extends Piece {
                     colDirection,
                     encounteredOpponent
                 )
-            }
-            // If encountered an ally piece, maybe add somthing later
-            else {
             }
         }
     }

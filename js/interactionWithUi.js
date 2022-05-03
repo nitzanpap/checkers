@@ -37,14 +37,21 @@ function removePossibleMovesAndCaptures() {
 }
 
 function showPossibleMovesAndCaptures(possibleMoves) {
+    const realPossibleMoves = getAllPossibleMovesOfPlayer(currentPlayerTurn)
     // Show all possible moves
-    for (let possibleMove of possibleMoves) {
-        const cell = getCellFromPiece(board[possibleMove[0]][possibleMove[1]])
-        cell.classList.add("possible-move")
+    for (const realPossibleMove of realPossibleMoves) {
+        if (possibleMoves.toString() === realPossibleMove.toString()) {
+            for (const possibleMove of possibleMoves) {
+                const cell = getCellFromPiece(board[possibleMove[0]][possibleMove[1]])
+                cell.classList.add("possible-move")
+            }
+        }
     }
-    // Show all possible captures
+    // Show all threatened pieces
     for (let possibleUnderThreat of possibleUnderThreats) {
-        if (possibleUnderThreat[2] === THREATENEND) {
+        if (
+            board[possibleUnderThreat[0]][possibleUnderThreat[1]].color !== currentPlayerTurn.color
+        ) {
             const cell = getCellFromPiece(board[possibleUnderThreat[0]][possibleUnderThreat[1]])
             cell.classList.add("threatened")
         }
