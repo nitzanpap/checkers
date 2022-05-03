@@ -19,15 +19,8 @@ class Piece {
     }
 
     getPossibleMoves(board) {
-        // Get relative moves
+        console.log("Getting possible move from the Piece class")
         let absoluteMoves = []
-        if (this.type === ILLEGAL) {
-            absoluteMoves = []
-        } else if (this.type === EMPTY) {
-            absoluteMoves = []
-        } else {
-            console.log("Unknown type", type)
-        }
         return absoluteMoves
     }
 }

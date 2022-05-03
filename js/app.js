@@ -90,7 +90,6 @@ function createBoard() {
     }
 }
 
-// TODO: Seperate interaction with UI and Logic into seperate files.
 function createPieces() {
     // Draw two special rows
     for (let i = 0; i <= 2; i++) {
@@ -145,7 +144,6 @@ function handleAllyPieceClick(cell, pieceClicked) {
     possibleMoves = pieceClicked.getPossibleMoves()
     showPossibleMovesAndCaptures(possibleMoves)
 }
-// TODO: FIXME: fix enforcing capture moves
 function handleValidEmptyCellClick(pieceClicked) {
     const selectedPiece = getPieceFromCell(cellSelected)
     let previousRow = selectedPiece.row

@@ -28,31 +28,12 @@ function removePieceFromBoardArray(piece) {
     board[piece.row][piece.col] = new Piece(piece.row, piece.col, EMPTY, EMPTY)
 }
 
-// TODO: Decide if this function is necessary. If so, incorporate it in the code.
-function clearPossibleCaptures() {
-    possibleUnderThreats = []
-}
-
 function turnSoldierToQueen(piece) {
     const cell = getCellFromPiece(piece)
     erasePieceFromCell(cell)
     board[piece.row][piece.col] = new Queen(piece.row, piece.col, piece.color)
     drawPieceInit(getCellFromPiece(piece), QUEEN, piece.color)
 }
-
-// function getAllPossibleCaptureMovesOfPlayer(player) {
-//     for (let row of board) {
-//         for (let piece of row) {
-//             const piecePossibleMoves = piece.getPossibleMoves()
-//             if (piece.color === player.color && piecePossibleMoves.length != 0) {
-//                 if (piecePossibleMoves[0][2] === CAPTURE)
-//                     allPossibleCaptureMovesOfPlayer.push(piecePossibleMoves)
-//             }
-//         }
-//     }
-//     // console.log(currentPlayerTurn.color, allPossibleMovesOfPlayer.toString())
-//     return allPossibleCaptureMovesOfPlayer
-// }
 
 function getAllPossibleMovesOfPlayer(player) {
     let allPossibleMovesOfPlayer = []

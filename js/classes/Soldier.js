@@ -47,7 +47,6 @@ class Soldier extends Piece {
 
     getSoldierRelativeMoves() {
         let result = []
-        // First iteration calls for the relevant directions
         if (this.color === WHITE) {
             this.getMovesInDirection(result, this.row, this.col, 1, -1)
             this.getMovesInDirection(result, this.row, this.col, 1, 1)
