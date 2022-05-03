@@ -121,7 +121,7 @@ function createPieces() {
 }
 
 function handleCellClick(cell) {
-    if (WINNER !== undefined) {
+    if (isGameOver()) {
         updateMessageBox(GAME_OVER)
         return
     }
@@ -173,7 +173,6 @@ function handleValidEmptyCellClick(pieceClicked) {
     removeSelectedCell()
     switchTurn()
     isMoveAllowed = false
-    isGameOver()
 }
 
 function isGameOver() {

@@ -49,7 +49,7 @@ function getAllPossibleMovesOfPlayer(player) {
                 allPossibleMovesOfPlayer.push(piecePossibleMoves)
         }
     }
-    console.log(currentPlayerTurn.color, allPossibleMovesOfPlayer)
+    // console.log(currentPlayerTurn.color, allPossibleMovesOfPlayer.toString())
     return allPossibleMovesOfPlayer
 }
 
