@@ -146,7 +146,7 @@ function handleAllyPieceClick(cell, pieceClicked) {
     possibleMoves = pieceClicked.getPossibleMoves()
     showPossibleMovesAndCaptures(possibleMoves)
 }
-
+// TODO: FIXME: fix enforcing capture moves
 function handleValidEmptyCellClick(pieceClicked) {
     const selectedPiece = getPieceFromCell(cellSelected)
     isMoveAllowed = true

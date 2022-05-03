@@ -6,12 +6,19 @@ class Soldier extends Piece {
 
     getPossibleMoves(board) {
         let absoluteMoves = []
+        let capturingMoves = []
         if (this.type === SOLDIER) {
             absoluteMoves = this.getSoldierRelativeMoves()
         } else {
             console.log("Unknown type", type)
         }
-        return absoluteMoves
+        // TODO: When this works, make sure to incorporate it in Queen class as well.
+        for (let possibleMove of possibleMoves) {
+            if (possibleMove[2] === CAPTURE) {
+                capturingMoves.push(possibleMove)
+            }
+        }
+        return capturingMoves.length === 0 ? absoluteMoves : capturingMoves
     }
 
     getMovesInDirection(result, i, j, rowDirection, colDirection) {
