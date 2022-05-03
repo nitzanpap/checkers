@@ -30,7 +30,7 @@ function erasePieceFromCell(cell) {
 /**
  * Checks if the given cell is indeed a possible move
  * @param {object} emptyCell The given cell
- * @returns True if it is a possible move, false otherwise
+ * @returns {Boolean} True if it is a possible move, false otherwise
  */
 function isEmptyCellInPossibleMoves(emptyCell) {
     return [...emptyCell.classList].indexOf("possible-move") !== -1

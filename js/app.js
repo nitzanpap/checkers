@@ -33,16 +33,15 @@ let currentPlayerTurn = WHITE_PLAYER
 
 let WINNER
 
+// Runs the game only when the screen loads
 window.addEventListener("load", () => {
-    runMainGame()
-})
-
-function runMainGame() {
     createBoard()
     createPieces()
-}
+})
 
-// This function creates and draws the chess board
+/**
+ * This function creates and draws the chess board
+ */
 function createBoard() {
     const body = document.querySelector("body")
 
@@ -90,6 +89,9 @@ function createBoard() {
     }
 }
 
+/**
+ * Creates and displays the pieces of the game
+ */
 function createPieces() {
     // Draw two special rows
     for (let i = 0; i <= 2; i++) {
@@ -117,6 +119,10 @@ function createPieces() {
     }
 }
 
+/**
+ * Handles a click on a black cell
+ * @param {object} cell The clicked cell
+ */
 function handleCellClick(cell) {
     if (isGameOver()) {
         updateMessageBox(GAME_OVER)
@@ -135,6 +141,11 @@ function handleCellClick(cell) {
     isGameOver()
 }
 
+/**
+ * Handles a click on an ally piece
+ * @param {object} cell The clicked cell
+ * @param {Piece} pieceClicked The clicked piece
+ */
 function handleAllyPieceClick(cell, pieceClicked) {
     // Clear all previous possible moves
     removePossibleMovesAndCaptures()
@@ -144,6 +155,11 @@ function handleAllyPieceClick(cell, pieceClicked) {
     possibleMoves = pieceClicked.getPossibleMoves()
     showPossibleMovesAndCaptures(possibleMoves)
 }
+
+/**
+ * Handles a click on a valid piece
+ * @param {Piece} pieceClicked The clicked piece
+ */
 function handleValidEmptyCellClick(pieceClicked) {
     const selectedPiece = getPieceFromCell(cellSelected)
     let previousRow = selectedPiece.row
@@ -169,7 +185,10 @@ function handleValidEmptyCellClick(pieceClicked) {
     removeSelectedCell()
     currentPlayerTurn = getOpponentPlayer(currentPlayerTurn)
 }
-
+/**
+ * Checks if the game is over
+ * @returns {Boolean} True if the game is over, else otherwise
+ */
 function isGameOver() {
     // End the game if The player has no more pieces on the board, or if his pieces are all unable to move.
     if (
