@@ -1,3 +1,10 @@
+/**
+ * Adds a new piece to the board array
+ * @param {Number} i Row index
+ * @param {Number} j Column index
+ * @param {String} type the type of the piece
+ * @param {String} color the color of the piece
+ */
 function addNewPieceToBoardArray(i, j, type, color) {
     if (type === ILLEGAL) {
         board[i][j] = new Piece(i, j, type, color)
@@ -10,6 +17,13 @@ function addNewPieceToBoardArray(i, j, type, color) {
     }
 }
 
+/**
+ * Moves a piece in the board array to a new coordinate in the board array
+ * @param {Number} rowFrom Row index to move the piece from
+ * @param {Number} colFrom Column index to move the piece from
+ * @param {Number} rowTo Row index to move the piece to
+ * @param {Number} colTo Column index to move the piece to
+ */
 function updatedBoardPieceLocation(rowFrom, colFrom, rowTo, colTo) {
     board[rowTo][colTo] = board[rowFrom][colFrom]
     board[rowFrom][colFrom] = new Piece(Number(rowFrom), Number(colFrom), EMPTY, EMPTY)
@@ -24,10 +38,18 @@ function movePiece(piece, rowTo, colTo) {
     drawPieceInCell(getCellFromPiece(piece))
 }
 
+/**
+ * Replaces the given piece with an empty one
+ * @param {Piece} piece The given piece in the board array
+ */
 function removePieceFromBoardArray(piece) {
     board[piece.row][piece.col] = new Piece(piece.row, piece.col, EMPTY, EMPTY)
 }
 
+/**
+ * Turns a Soldier piece to a queen
+ * @param {Piece} piece The given piece
+ */
 function turnSoldierToQueen(piece) {
     const cell = getCellFromPiece(piece)
     erasePieceFromCell(cell)
@@ -35,6 +57,11 @@ function turnSoldierToQueen(piece) {
     drawPieceInit(getCellFromPiece(piece), QUEEN, piece.color)
 }
 
+/**
+ * Returns the possible moves of all the pieces of the player
+ * @param {Player} player The given player
+ * @returns All the possible moves, or all the capturing moves available
+ */
 function getAllPossibleMovesOfPlayer(player) {
     let allPossibleMovesOfPlayer = []
     let allPossibleCaptureMovesOfPlayer = []
@@ -48,11 +75,18 @@ function getAllPossibleMovesOfPlayer(player) {
             }
         }
     }
+    // If there are capture moves available, return them instead of the regular moves
     return allPossibleCaptureMovesOfPlayer.length === 0
         ? allPossibleMovesOfPlayer
         : allPossibleCaptureMovesOfPlayer
 }
 
+/**
+ * Get the piece that was captured
+ * @param {Piece} previousPiece The captive piece
+ * @param {Piece} currentPiece The capturing piece
+ * @returns The piece that was captured
+ */
 function getCapturedPieceBetween(previousPiece, currentPiece) {
     let capturedRow =
         previousPiece.row < currentPiece.row ? currentPiece.row - 1 : currentPiece.row + 1
