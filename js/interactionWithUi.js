@@ -1,3 +1,9 @@
+/**
+ * Creates a new piece image and displays it in the given cell
+ * @param {object} cell The given cell
+ * @param {String} type The type of the piece
+ * @param {String} cellColor The color of the piece
+ */
 function drawPieceInit(cell, type, cellColor) {
     const pieceImg = document.createElement("img")
     pieceImg.className += "piece " + type
@@ -5,18 +11,37 @@ function drawPieceInit(cell, type, cellColor) {
     cell.appendChild(pieceImg)
 }
 
+/**
+ * Moves a piece image to the given cell
+ * @param {object} cell The given cell
+ */
 function drawPieceInCell(cell) {
     cell.appendChild(cellSelected.children[0])
 }
 
+/**
+ * Removes a piece image from a given cell
+ * @param {object} cell The given cell
+ */
 function erasePieceFromCell(cell) {
     cell.replaceChildren()
 }
 
+/**
+ * Checks if the given cell is indeed a possible move
+ * @param {object} emptyCell The given cell
+ * @returns True if it is a possible move, false otherwise
+ */
 function isEmptyCellInPossibleMoves(emptyCell) {
     return [...emptyCell.classList].indexOf("possible-move") !== -1
 }
 
+/**
+ * Checks if the clicked cell is a valid cell to empty
+ * @param {Piece} pieceClicked The given piece to be moved
+ * @param {object} cell The clicked cell
+ * @returns
+ */
 function isValidCellDestination(pieceClicked, cell) {
     return (
         pieceClicked.color === EMPTY &&
@@ -25,6 +50,9 @@ function isValidCellDestination(pieceClicked, cell) {
     )
 }
 
+/**
+ * Removes all the possible moves and captures from the screen
+ */
 function removePossibleMovesAndCaptures() {
     possibleUnderThreats = []
     // Clear all previous possible moves and captures
@@ -36,6 +64,10 @@ function removePossibleMovesAndCaptures() {
     }
 }
 
+/**
+ * Displays all the possible moves and captures of a selected piece
+ * @param {object} possibleMoves An array that holds all the possible moves of a certain piece
+ */
 function showPossibleMovesAndCaptures(possibleMoves) {
     const realPossibleMoves = getAllPossibleMovesOfPlayer(currentPlayerTurn)
     // Show all possible moves
@@ -58,6 +90,10 @@ function showPossibleMovesAndCaptures(possibleMoves) {
     }
 }
 
+/**
+ * Selects a new given cell
+ * @param {object} cell The given cell
+ */
 function selectCellClick(cell) {
     // Remove any previous selected cells and rest cellSelected
     if (cellSelected != undefined) {
@@ -68,11 +104,20 @@ function selectCellClick(cell) {
     cell.classList.add("selected-cell")
 }
 
+/**
+ * Removes the selected-cell html class from the current selected cell
+ */
 function removeSelectedCell() {
     cellSelected.classList.remove("selected-cell")
     cellSelected = undefined
 }
 
+/**
+ * Updates the message box according to the event that happened
+ * @param {String} event The event that happened
+ * @param {Piece} piece1 The piece that the event is about, if there is such a piece
+ * @param {Piece} piece2 a second piece that the event is about, if there is such a piece
+ */
 function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
     const messageBox = document.querySelector(".message-box")
     messageBox.innerText = ""
