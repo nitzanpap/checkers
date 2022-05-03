@@ -170,7 +170,7 @@ function handleValidEmptyCellClick(pieceClicked) {
     }
     removePossibleMovesAndCaptures()
     removeSelectedCell()
-    switchTurn()
+    switchTurn(currentPlayerTurn)
 }
 
 function isGameOver() {

@@ -9,8 +9,9 @@
 - [x] Allow pieces to capture other pieces.
 - [x] Take into account player turns.
 - [x] Detect end-of-game and notify the user who won.
-- [ ] Only allow capture moves, if such are available.
-- [ ] Organize code, proofread, and improve code architecture.
+- [x] Only allow capture moves, if such are available.
+- [x] Organize code and improve its architecture.
+- [ ] Document all the code for better readability.
 - [ ] Make a video explaining the GUI, the architecture, and the code.
 
 ## Extra

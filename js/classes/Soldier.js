@@ -12,7 +12,6 @@ class Soldier extends Piece {
         } else {
             console.log("Unknown type", type)
         }
-        // TODO: When this works, make sure to incorporate it in Queen class as well.
         for (let absoluteMove of absoluteMoves) {
             if (absoluteMove[2] === CAPTURE) {
                 capturingMoves.push(absoluteMove)

@@ -7,7 +7,7 @@ function coordinateToCheckersCoordinate(row, col) {
     return String.fromCharCode(asciiNumOfA + row) + (col + 1)
 }
 
-function switchTurn() {
+function switchTurn(currentPlayerTurn) {
     currentPlayerTurn = currentPlayerTurn === WHITE_PLAYER ? BLACK_PLAYER : WHITE_PLAYER
 }
 
