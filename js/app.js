@@ -167,7 +167,7 @@ function handleValidEmptyCellClick(pieceClicked) {
     }
     removePossibleMovesAndCaptures()
     removeSelectedCell()
-    switchTurn(currentPlayerTurn)
+    currentPlayerTurn = getOpponentPlayer(currentPlayerTurn)
 }
 
 function isGameOver() {
