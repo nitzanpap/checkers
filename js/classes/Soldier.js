@@ -1,9 +1,23 @@
+/**
+ * A class representing a single Soldier piece
+ */
 class Soldier extends Piece {
+    /**
+     * Creates a single Soldier piece
+     * @param {Number} row Row index
+     * @param {Number} col Column index
+     * @param {String} color The color of the piece
+     */
     constructor(row, col, color) {
         super(row, col, SOLDIER, color)
         this.lastRow = this.color === WHITE ? BOARD_SIZE - 1 : 0
     }
 
+    /**
+     * Gets all of the possible moves this piece can make
+     * @param {object} board the array containg all of the pieces
+     * @returns {object} An array containing all the possible moves of this piece
+     */
     getPossibleMoves(board) {
         let absoluteMoves = []
         let capturingMoves = []
@@ -20,6 +34,14 @@ class Soldier extends Piece {
         return capturingMoves.length !== 0 ? capturingMoves : absoluteMoves
     }
 
+    /**
+     *
+     * @param {object} result An array containing all the possible moves of this piece
+     * @param {Number} i Row index
+     * @param {Number} j Column index
+     * @param {Number} rowDirection An incremanter for the row index
+     * @param {Number} colDirection An incremanter for the column index
+     */
     getMovesInDirection(result, i, j, rowDirection, colDirection) {
         i += rowDirection
         j += colDirection
@@ -45,6 +67,10 @@ class Soldier extends Piece {
         }
     }
 
+    /**
+     * Gets all the possible moves that this Soldier can make
+     * @returns {object} An array containing all the possible moves of this piece
+     */
     getSoldierRelativeMoves() {
         let result = []
         if (this.color === WHITE) {
