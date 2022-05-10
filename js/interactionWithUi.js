@@ -124,6 +124,7 @@ function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
     messageBox.className = "message-box"
     // if the game is over
     if (event === "game over") {
+        gameOverSound.play()
         messageBox.innerText =
             "Congratulations! " +
             WINNER.color.slice(0, 1).toUpperCase() +
@@ -132,6 +133,7 @@ function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
         messageBox.classList.add("message-box-game-over")
         // if a new queen was aquired
     } else if (event === "new queen") {
+        newQueenSound.play()
         messageBox.innerText =
             piece1.color.slice(0, 1).toUpperCase() +
             piece1.color.slice(1) +
@@ -139,6 +141,7 @@ function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
         messageBox.classList.add("message-box-new-queen")
         // if a capture has been made
     } else if (event === "capture") {
+        capturingSound.play()
         messageBox.innerText =
             piece1.color.slice(0, 1).toUpperCase() +
             piece1.color.slice(1) +
@@ -152,6 +155,7 @@ function updateMessageBox(event, piece1 = undefined, piece2 = undefined) {
         messageBox.classList.add("message-box-capture")
         // if a move has been made
     } else if (event === "move") {
+        movingSound.play()
         messageBox.innerText =
             piece1.color.slice(0, 1).toUpperCase() +
             piece1.color.slice(1) +

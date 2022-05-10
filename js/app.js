@@ -33,6 +33,12 @@ let currentPlayerTurn = WHITE_PLAYER
 
 let WINNER
 
+// Importing sounds
+let movingSound = new Audio("sounds/movePiece.wav")
+let capturingSound = new Audio("sounds/capturePiece.wav")
+let newQueenSound = new Audio("sounds/newQueen.wav")
+let gameOverSound = new Audio("sounds/hooray.wav")
+
 // Runs the game only when the screen loads
 window.addEventListener("load", () => {
     createBoard()
